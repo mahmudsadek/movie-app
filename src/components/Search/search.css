@@ -1,0 +1,22 @@
+.movie-search {
+  margin-top: 20px;
+background-color: #EEE;
+padding:  20px 20px;
+border-radius: 10px;
+}
+
+.search-input {
+width: 85%;
+padding: 7px 20px;
+border: none;
+border-radius: 10px;
+}
+
+.search-btn {
+width: 12%;
+padding: 7px;
+border: none;
+border-radius: 10px;
+background-color: rgb(255, 230, 2);
+font-weight: 500;
+}
