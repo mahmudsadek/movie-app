@@ -9,7 +9,7 @@ const NavBar = () => {
 				style={{ backgroundColor: "rgb(255, 230, 2)" }}
 			>
 				<div className="container-fluid">
-					<a className="navbar-brand fw-bold fs-4" href="#">
+					<a className="navbar-brand fw-bold fs-4" href="/">
 						MOVIES'LAND
 					</a>
 					<button
@@ -30,7 +30,7 @@ const NavBar = () => {
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 							<li className="nav-item">
 								<Link
-									className="nav-link active fw-bold"
+									className="nav-link fw-bold"
 									aria-current="page"
 									to="/"
 								>
@@ -58,7 +58,7 @@ const NavBar = () => {
 								<li className="nav-item">
 									<Link 
                     className="nav-link fw-bold"
-                    to={"/"}>
+                    to={"/watchlist"}>
                       WATCHLIST
                     </Link>
 								</li>

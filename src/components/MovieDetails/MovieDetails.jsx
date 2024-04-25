@@ -4,10 +4,32 @@ import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
-
+import { faHeart as RegularHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as SolidHeart} from '@fortawesome/free-solid-svg-icons';
 import "./MovieDetails.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addToWatchlist, removeFromWatchlis } from "../../store/slices/watchlist";
+
 const MovieDetails = () => {
-	const movieId = useParams();
+	const {id} = useParams();
+  const watchlist = useSelector(state => state.watchlist.state);
+  const [addedToWatchlist, setAddedToWatchlist] = useState(false)
+  const dispatch = useDispatch()
+  const HandelClick = (e) => {
+    if (addedToWatchlist) {
+      dispatch(removeFromWatchlis(movie)); // Assuming removeFromWatchlist action accepts movie id
+    } else {
+      dispatch(addToWatchlist(movie)); // Assuming addToWatchlist action accepts movie
+    }
+    setAddedToWatchlist(!addedToWatchlist);
+  }
+  
+  useEffect(() => {
+    if (watchlist) {
+      setAddedToWatchlist(watchlist.find(movie => movie.id === id));
+    }
+  }, [watchlist]);
+
 	const [movie, setMovie] = useState({});
 
 	const renderStars = () => {
@@ -40,14 +62,15 @@ const MovieDetails = () => {
 	useEffect(() => {
 		axios
 			.get(
-				`https://api.themoviedb.org/3/movie/${movieId.id}?api_key=a58a12ff85a35ffc4c27a80dd763cf01`
+				`https://api.themoviedb.org/3/movie/${id}?api_key=a58a12ff85a35ffc4c27a80dd763cf01`
 			)
 			.then((res) => {
 				setMovie(res.data);
 				console.log(movie.genres);
 			})
 			.catch((err) => console.log(err));
-	}, [movie, movieId]);
+    //setAddedToWatchlist( watchlist.find(m => m.id === movieId) )
+	}, [movie, id]);
 	return (
 		<>
 			<div className="container">
@@ -60,7 +83,15 @@ const MovieDetails = () => {
 						/>
 					</div>
 					<div className="col-sm-12 col-md-8 ">
-						<h2 className="fs-1 fw-bold">{movie.original_title}</h2>
+            <div className="d-flex justify-content-between   align-items-baseline;">
+						  <h2 className="fs-2 fw-bold">{movie.original_title}</h2>
+              <button onClick={HandelClick} style={{border:"none",backgroundColor:"#ffffff00"}}>
+                {addedToWatchlist ?
+                  <FontAwesomeIcon icon={SolidHeart}  style={{color:"rgb(255, 230, 2)",fontSize:"30px"}}/>
+                  :<FontAwesomeIcon icon={RegularHeart} style={{fontSize:"30px"}}/>
+                }
+              </button>
+            </div>
 						<p className="text-secondary">{movie.release_date}</p>
 						<div className="rate-sec">
 							{renderStars()}
